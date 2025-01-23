@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>React</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script src="js/script.jsx" defer></script>
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Bootstrap 5 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <!-- Bootstrap Icons CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+            // const name = 'Alvin'
+            // const date = new Date().toLocaleDateString()
+            // const x = 10;
+            // const y = 20;
+            // const Hello = (props) => (
+            //     <div>
+            //         <h1>Hello {name} and {props.name}, you are both {props.age} years old</h1>
+            //         haha {date}
+            //     </div>
+            // )            
+            // ReactDOM.render(<Hello name='Bob' age={10}/>, document.getElementById('root'));
+
+            function Calculator () { //regular function
+                const [calc, setCalc] = React.useState({
+                    current: "0",
+                    total: "0",
+                    isInitial: true,
+                    preOp: ""
+                });
+                console.log('calc--->',calc);
+                console.log('setCalc--->',calc);
+
+                function handleNumber(value) {
+                    // console.log(`handler number ${value} clicked`);
+
+                    let newValue = value;
+                    if (!calc.isInitial) {
+                        newValue = calc.current + value;
+                    }
+                    setCalc({current: newValue, total: calc.total, isInitial: false, preOp: calc.preOp});
+                }
+
+                function handleOperator(value) {
+                    // console.log('operator clicked');
+                    const total = doCalculation();
+
+                    setCalc({current: total.toString(), total: total.toString(), isInitial: true, preOp: value});
+
+                }
+
+                function doCalculation() {
+                    // console.log('do calculation');
+
+                    let total = parseFloat(calc.total);
+                    // debugger;
+                    // console.log(calc);
+
+                    switch (calc.preOp) {
+                        case "+":
+                            total += parseFloat(calc.current);
+                            break
+                        case "-":
+                            total -= parseFloat(calc.current);
+                            break
+                        case "*":
+                            total *= parseFloat(calc.current);
+                            break
+                        case "/":
+                            total /= parseFloat(calc.current);
+                            break
+                        default:
+                            total = parseFloat(calc.current);
+                    }
+                    return total;
+                }
+
+                function renderDisplay() {
+                    return calc.current;
+                }
+
+                function handleClear() {
+                    // console.log('clear clicked');
+                    setCalc({current: "0", total: "0", isInitial: true, preOp: ""});
+                }
+
+                return (
+                    <div className="calculator">
+                        <div className="display">{renderDisplay()}</div>
+                        <CalcButton value="7" onClick={handleNumber}/>
+                        <CalcButton value="8" onClick={handleNumber}/>
+                        <CalcButton value="9" onClick={handleNumber}/>
+                        <CalcButton className="operator" onClick={handleOperator} value="/"/>
+
+                        <CalcButton value="4" onClick={handleNumber}/>
+                        <CalcButton value="5" onClick={handleNumber}/>
+                        <CalcButton value="6" onClick={handleNumber}/>
+                        <CalcButton className="operator" onClick={handleOperator} value="*"/>
+
+                        <CalcButton value="1" onClick={handleNumber}/>
+                        <CalcButton value="2" onClick={handleNumber}/>
+                        <CalcButton value="3" onClick={handleNumber}/>
+                        <CalcButton className="operator" onClick={handleOperator} value="-"/>
+                        
+                        <CalcButton value="C" onClick={handleClear}/>
+                        <CalcButton value="0" onClick={handleNumber}/>
+                        <CalcButton value="=" onClick={handleOperator}/>
+                        <CalcButton className="operator" onClick={handleOperator} value="+"/>
+                    </div>
+                )
+            }
+
+            const CalcButton = (props) => { //arrow function
+                // return <button className={props.className} onClick={() => props.onClick(props.value)}>{props.value}</button>
+                // return <button className="btn btn-secondary btn-outline-dark mb-1 me-1">{props.value}</button>
+                return <button className={`btn btn-success btn-outline-dark mb-1 me-1 ${props.className || ''}`} onClick={() => props.onClick(props.value)}>{props.value}</button>
+
+            }
+
+            ReactDOM.render(<div className="app-container"><Calculator/></div>, document.getElementById('root'));
+        </script>
+    </body>
+    
+</html>

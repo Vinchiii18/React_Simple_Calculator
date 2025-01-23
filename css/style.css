@@ -1,0 +1,41 @@
+.app-container {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.calculator {
+    display: flex;
+    flex-wrap: wrap; /* Allows buttons to wrap to the next line */
+    gap: 5px; /* Adds spacing between buttons */
+    width: 100%; /* Ensures it spans the container */
+}
+
+.display {
+    width: 100%; /* Takes up the full width of the calculator */
+    height: 40px;
+    font-size: 30px;
+    text-align: right;
+    border: 1px solid black;
+}
+
+button {
+    flex: 1 0 23%; /* Takes approximately 23% of the row width to fit 4 buttons */
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button:nth-child(4n) {
+    clear: both; /* Forces a new line for every 4th button */
+}
+
+button.operator {
+    background-color: lightgray;
+    border-color: none !important;
+}
